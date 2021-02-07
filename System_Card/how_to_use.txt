@@ -1,0 +1,27 @@
+These are IPS files to patch a (Super)CD-ROM system Card J/(U?).pce file with.
+Please make sure the system card has NO 512-byte header (ie: if $000-$1FF of
+your system card ROM consists mostly of zeroes, cut it out!)
+Headers on a PCE ROM are completely useless these days.
+
+I've included IPS patch files, because the PCE system card is still technically
+under copyright.  Find out how to use an IPS patcher.
+
+PCEmon is embedded in a normal system card, and will be called up by pressing
+RUN+SELECT or just SELECT (depending on which version of the IPS you used)
+almost anytime during the game.  You'll then have to unplug your joypad and
+plug in your RS-232 cable.  This swapping is unavoidable for now, I believe.
+
+Some games swap out the system card altogether, so you won't be able to use
+PCEmon with them.
+
+Anyhow, if you can't get IPS patches to work, please e-mail me.  The hacking and
+additional code I put into the System Card is a little too complex to post here
+briefly enough.
+
+In addition, I filled $002A000 in the system card with 8K from my PCEmon_SHORT.pce
+ROM.  The system card mostly has bank $15 free, so that's where PCEmon is mapped!
+
+** UPDATE **
+
+I've also included a cheat menu in the RUN+Select version of the System Card.
+Press Select at the usual CD Card boot screen to access it.

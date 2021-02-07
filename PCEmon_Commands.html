@@ -1,0 +1,1349 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PCEmon RS-232 Monitor Commands</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<p><a name="pagetop"></a></p>
+<table width="100%" border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellpadding="2" cellspacing="0">
+  <tr> 
+    <td>This is a listing of the current commands in <a href="index.html">PCEmon</a>.&nbsp; 
+      Please note that all numerical values required by commands are in <strong>Hexadecimal</strong>.&nbsp; 
+      Required command options are traditionally shown enclosed in angled brackets: 
+      &lt;value&gt;, while optional command options are in square brackets: [option].</td>
+  </tr>
+  <tr> 
+    <td><pre>+-----------------------------------------------------------------+<br>| PCEmon RS232 MONITOR BY CHRIS COVELL &lt;chris_covell-at-yahoo.ca&gt; |<br>+-----------------------------------------------------------------+<br> Version 1.27.4 (10/25/2015)  BufSize:$0000  Baud Rate:19200bps</pre> 
+      <table border="0" cellspacing="0" cellpadding="3">
+        <tr valign="top"> 
+          <td> <pre><a name="cmdtop"></a> General Commands
+         <a href="#hatena">?</a> [c] all/each command help. 
+         <a href="#slash">/</a> command listing and status.
+         <a href="#bang">!</a> extra developer commands.
+         <a href="#o">O</a> [e/r/s] toggle output/echo.
+         <a href="#b">B</a> &lt;0..2&gt; 9600/19200/57600 baud.
+         <a href="#p">P</a> &lt;dd&gt; hexdump lines before pause.
+         <a href="#n">N</a> next screen palette.
+         <a href="#t">T</a> [0..2 [aaaa dd]] - view (clear/set) cheats.<br>         <a href="#pound">#</a> [c]list/execute external <a href="#helpers">helper command</a>.</pre></td>
+          <td> 
+            <pre> Memory Commands
+         <a href="#h">H</a> [v]&lt;aaaa&gt; [bbbb] hexdump (v)address.
+         <a href="#h2">H</a> &lt;mm&gt; : [mm] hexdump mpr banks.
+         <a href="#d">D</a> [v]&lt;aaaa&gt; [bbbb] dump binary.
+         <a href="#d2">D</a> &lt;mm&gt; : [mm] bindump mpr banks.
+         <a href="#m">M</a> &lt;aaaa&gt; &lt;dd&gt; [...dd] data to memory.
+         <a href="#f">F</a> &lt;aaaa&gt; &lt;bbbb&gt; &lt;dd&gt; fill memory.
+         <a href="#u">U</a> [v][aaaa] upload data to buffer (no option) or (v)ram address.
+         <a href="#u2">U</a> [mm]: upload data to MPR banks.
+         <a href="#j">J</a> &lt;aaaa&gt; jump to address.
+         <a href="#g">G</a> [l/s/r] Go to (resume) savestate / (Load/Save savestate / save Raw RAM).</pre></td>
+        </tr>
+        <tr valign="top"> 
+          <td> <pre> Buffer Commands
+         <a href="#l">L</a> &lt;size&gt; load buffer from serial.<br>         <a href="#s">S</a> save buffer to serial.
+         <a href="#c">C</a> check buffer.
+         <a href="#w">W</a> [v]&lt;aaaa&gt; copy buffer to (v)ram.
+         <a href="#paltobuf">(</a> vce pals to buffer.
+         <a href="#buftopal">)</a> buffer to vce.
+         <a href="#bramtobuf">&lt;</a> bram to buffer.
+         <a href="#buftobram">&gt;</a> buffer to bram.</pre></td>
+          <td> <pre> Register Commands
+         <a href="#axy">A</a>/<a href="#axy">X</a>/<a href="#axy">Y</a> &lt;dd&gt; set register value.
+         <a href="#mprset">0..7</a> &lt;dd&gt; set mpr bank value.
+         <a href="#8">8</a> set jump mpr7.
+         <a href="#v">V</a> &lt;rr&gt; &lt;dddd&gt; data to vdc register.
+         <a href="#v">R</a> see cpu registers.
+<br> CD System Card <a href="#cdmenu">hacked Cheat Menu</a><br> <a href="#sstate">Save State Procedure</a>
+ <a href="#helpers">Helper Commands</a></pre></td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="hatena"></a>&nbsp;?&nbsp; [C] - Full command 
+            listing / [List single commmand]</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will give a longer description of each command and its required syntax.</td>
+    <td><pre><font color="#0000FF"><strong>?
+</strong></font>    .... (all commands get printed)<br><font color="#0000FF"><strong>? J</strong></font>
+    J &lt;AAAA&gt; - Jump to (execute) address </pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p><table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="slash" id="slash"></a> <strong>/</strong>&nbsp; 
+            - Short command listing and monitor status</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This simply lists the command overview that you see at the top of this 
+      page.</td>
+    <td><pre><font color="#0000FF"><strong>/</strong>
+   </font>.... (command overview gets printed)</pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="bang" id="bang"></a> ! + developer command: 
+            L/M/H&lt;/&gt;/P[n]</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>These are a bunch of miscellaneous commands that would help the more 
+        technically-inclined, so I'm hiding them here:</p>
+      <ul>
+        <li>Resolution-changing commands let you change the horizontal screen 
+          resolution before returning to a game.</li>
+        <li>ADPCM (CD unit sample memory) transfer commands let you copy the 64K 
+          ADPCM RAM data to CDRAM for viewing or dumping, as well as copying this 
+          RAM area back to the ADPCM area.</li>
+        <li>ADPCM play commands let you play ADPCM data at a specified sample 
+          rate (0-F). </li>
+      </ul></td>
+    <td><pre><strong><font color="#0000FF">!L
+   </font></strong>.... (screen resolution set to 256 wide)<br><strong><font color="#0000FF">!M
+   </font></strong>.... (screen resolution set to 352 wide)
+<strong><font color="#0000FF">!H
+   </font></strong>.... (screen resolution set to 512 wide)
+<font color="#0000FF"><strong>!&lt;</strong></font>
+   ADPCM copied to Banks 80:87.
+<strong><font color="#0000FF">U 80:
+!&gt;</font></strong>
+   Banks 80:87 copied to ADPCM RAM.
+<font color="#0000FF"><strong>!P 9   </strong></font>
+   .... (ADPCM memory gets played)
+<strong><font color="#0000FF">!P</font></strong>
+   .... (sample is silenced)</pre> </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="o" id="o"></a> O&nbsp; [E/R/S] - (toggle) 
+            Output device: serial Echo/RS-232/Screen </font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This will show you (and change) where the program output goes.&nbsp; 
+        By default, program output goes to the screen and out the RS-232 port 
+        to your computer.&nbsp; &quot;Echo&quot; means each letter that you type 
+        also gets echoed back to your computer's terminal program.</p>
+      <p>When dumping binaries from the PCE, you'll want to turn Echo and RS-232 
+        off beforehand, so that your typing, etc, doesn't get saved alongside 
+        the binary file.&nbsp; When examining screen contents or VRAM, you might 
+        want to turn Screen output off.</p>
+      <p><strong><font color="#FF0000">*IMPORTANT*</font></strong>&nbsp; If you 
+        use a terminal program that <em>isn't</em> interactive, ie: it has a text 
+        entry line that <strong>doesn't</strong> get sent over the serial port 
+        until you hit Enter, you should turn OFF echo.&nbsp; Otherwise, incoming 
+        characters to PCEmon will get lost or corrupted.&nbsp; (This is not a 
+        bug; echo means it sends back whatever came in over the serial line as 
+        soon as it receives it (which, obviously takes an equal amount of time 
+        to send back.)</p></td>
+    <td><pre><font color="#0000FF"><strong>O</strong></font>
+     Output Device(s): SCREEN RS-232 [ECHO ON]
+<strong><font color="#0000FF">O S</font></strong>
+     Output Device(s): RS-232 [ECHO ON]
+<strong><font color="#0000FF">ORE</font></strong>
+     Output Device(s): SCREEN [ECHO OFF]
+       </pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p><table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="b" id="b"></a> B&nbsp; &lt;0..2&gt; - change 
+            Baud rate to 9600,19200,57600 baud</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>PCEmon will start out at some default baud rate, but you can kick it into 
+      a higher or lower speed.&nbsp; Of course, you won't be able to read the 
+      message through your terminal right after the baud rate has changed, so 
+      the message will be output to the screen only.&nbsp; Obviously, after you 
+      have changed to a new baud setting here, change your PC's serial port / 
+      terminal to the same speed.</td>
+    <td><pre><font color="#0000FF"><strong>B 0</strong></font>
+    Baud Rate: 9600 bps</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="p" id="p"></a>&nbsp; P &lt;DD&gt; - set 
+            # of hexdump lines before Pause (00 = no pause) </font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>The <a href="#h">hexdump</a> will print by default 24 lines onscreen before 
+      it pauses and waits for a button press to either continue or cancel the 
+      hexdump.&nbsp; With this command you can set the pause to be more or less 
+      frequent.&nbsp; Or, if you set the pause to 0, it won't stop at all during 
+      a hexdump.</td>
+    <td><pre><font color="#0000FF"><strong>P 10</strong></font>
+     Hexdump Pause now $10 </pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="n" id="n"></a>&nbsp; N - Next screen palette</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will change the on-screen palette for text and the background to 
+      one of several themes.&nbsp; Use the one you like.</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="t" id="t"></a>&nbsp; T [0/1/2 [AAAA DD]] 
+            - view active cheats/Trainers (clear / (set address for) specified 
+            Trainer)</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>Version 1.27 of PCEmon adds a form of cheating that I'm sure you're 
+        familiar with: Action Replay-style cheat codes!&nbsp; You can activate 
+        between 1 to 3 cheat codes (in slots 0, 1, or 2) that a CD System Card, 
+        hacked with version 1.27 of PCEmon, will keep active during CD games.</p>
+      <p>First, of course, you start up your hacked System Card, and press Select 
+        (or Select+Run, whatever) to start up PCEmon, hopefully anywhere you want: 
+        in the Syscard menu, on the game's title screen, or in-game even.&nbsp; 
+        Then after connecting the serial adaptor to your PCE, invoke the Trainer 
+        command in PCEmon.&nbsp; Finally type 'G' to Go back to the game, and 
+        swap the PCE joypad back in.&nbsp; If the border around the screen is 
+        a dark blue, the Trainer is working!</p>
+      <p>Note that you can also optionally enable cheats through a <a href="#cdmenu">hacked 
+        CD System Card</a> that I recently made.&nbsp; Where do you get cheats 
+        from?&nbsp; Well, look for PCE RAM hacks online, or use the <a href="#g">G 
+        R</a> option several times in a CD game, then search for them using the 
+        new <a href="#hlprsrch"># T</a> Trainer Search. </p></td>
+    <td><pre><font color="#0000FF"><strong>T 2 3CF5 09</strong></font>
+   Trainer (Cheats): x  x  $3CF5:09
+<font color="#0000FF"><strong>T</strong></font>   
+   Trainer (Cheats): x  x  $3CF5:09
+<font color="#0000FF"><strong>T 2</strong></font>
+   Trainer (Cheats): x  x  x</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><p><font size="+1"><a name="pound" id="pound"></a>&nbsp;<strong>#</strong> 
+              [C] - list (or execute) a helper command residing in another bank</font></p>
+            </td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>Although the standard commands are built-in to PCEmon's startup bank, 
+        you might want to load in larger one-time functions -- for example, things 
+        like a <a href="#hlprdis">disassembly</a> or <a href="#hlprpcx">screen 
+        dump</a>.&nbsp; So, this command will search through the buffer and all 
+        the banks (either ROM or CD-RAM) to find the signature of these optional 
+        helpers.</p>
+      <p>The ROM-based PCEmon probably has the helpers already there, but you'll 
+        have to upload them into CD RAM yourself when using PCEmon that's embedded 
+        in a CD System Card.</p></td>
+    <td><pre><font color="#0000FF"><strong>&gt;#</strong></font><br> 06  D &lt;AAAA&gt;[BBBB] - Disassemble address range<br> 07  X [B/W/S/G [pal]] Save Screen (BG/Wide/Spr/Grouped) as PCX<br><strong><font color="#0000FF">&gt;u</font></strong><br>  Okay, send your binary!<br>  Received $0790 bytes, saved from $2200 to $298F
+<strong><font color="#0000FF">&gt;#</font></strong>
+ Buf D &lt;AAAA&gt;[BBBB] - Disassemble address range
+ 06  D &lt;AAAA&gt;[BBBB] - Disassemble address range
+ 07  X [B/W/S/G [pal]] Save Screen (BG/Wide/Spr/Grouped) as PCX<br><font color="#0000FF"><strong>&gt;u 87:</strong></font><br>  Okay, send your binary!<br>  Received $002000 bytes, saved from $87:0000 to $87:1FFF
+<font color="#0000FF"><strong>&gt;#</strong></font>
+ 87  X [B/W/S/G [pal]] Save Screen (BG/Wide/Spr/Grouped) as PCX<br><font color="#0000FF"><strong>&gt;# X</strong></font><br>&nbsp; ...(PCX save gets executed)</pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="h" id="h"></a>&nbsp; H [V] &lt;AAAA&gt; 
+            [BBBB] - Hexdump (VRAM)/RAM/ROM address<br>
+            <a name="h2" id="h2"></a>&nbsp; H &lt;MM&gt; : [MM] - Hexdump MPR 
+            banks</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This shows a HEX and ASCII representation of any address in the CPU's 
+        memory map.&nbsp; Note that RAM usually is between $2000-$3FFF, ROM is 
+        usually $4000-$FFFF, and I/O is $0000-$1FFF (not really useful to read 
+        a whole range of this.)&nbsp; You can examine VRAM also by specifying 
+        its word address, ie: 64K of VRAM ranges from $0000-$7FFF.</p>
+      <p>Any of the MPR banks (00-FF) can be dumped (all 8192 bytes in one shot) 
+        by specifying the starting bank and optional finishing bank.&nbsp; CD-RAM 
+        for example is in banks $68-$87.</p>
+      <p>I've made the hexdump round up to the next 16 bytes, so that by typing 
+        H 2000 4000 you can view all the RAM (you could type H 2000 3FFF if you 
+        really wanted to, though.)</p>
+      <p>Every 24 lines, the hexdump will pause and wait for you to press &lt;SPACE&gt; 
+        to continue the dump.&nbsp; Or you can press any other key to stop the 
+        hexdump.&nbsp; You can change this pause setting with the <a href="#p">P 
+        &lt;dd&gt;</a> command. </p>
+      </td>
+    <td><pre><font color="#0000FF"><strong>H 2000 2200</strong></font>
+   ... (RAM from $2000-$21FF is shown)
+<strong><font color="#0000FF">H V 1000 1080</font></strong>
+   ... (256 bytes of VRAM from $1000 to $107F is shown)
+<strong><font color="#0000FF">H 80:81</font></strong> 
+   ... (CD-RAM banks $80 and $81 are shown)
+<strong><font color="#0000FF">H 01:</font></strong>
+   ... (ROM bank $01 is shown)</pre></td>
+  </tr>
+  <tr> 
+    <td colspan="2"><center>
+        An example output:<br>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr> 
+            <td><pre>      <strong><font color="#0000FF">H V 0 200</font></strong>
+             0000: 20012001 20012001 20012001 20012001 | . . . . . . . .
+             0008: 20012001 20012001 20012001 20012001 | . . . . . . . .
+             0010: 20012001 20012001 20012001 20012001 | . . . . . . . .
+             ...
+             01D0: BE012001 68016501 78016401 75016D01 |.. .h.e.x.d.u.m.
+             01D8: 70012001 28017601 29016101 64016401 |p. .(.v.).a.d.d.
+             01E0: 2E012001 2001C401 DB01F601 DD01BC01 |.. . ...........
+             01E8: E101E101 E101E101 BE01BC01 E201E201 |................
+             01F0: E201E201 BE012001 64017501 6D017001 |...... .d.u.m.p.
+             01F8: 20016201 69016E01 61017201 79012E01 | .b.i.n.a.r.y...<br>&nbsp;     &gt;</pre></td>
+          </tr>
+        </table>
+      </center></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="d" id="d"></a>&nbsp; D [V] &lt;AAAA&gt; 
+            [BBBB] - Binary Dump (VRAM)/RAM/ROM address<br>
+            <a name="d2" id="d2"></a>&nbsp; D &lt;MM&gt; : [MM] - Binary Dump 
+            MPR banks</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This dumps any address in the CPU's memory map directly as a binary 
+        through your PC's serial port.&nbsp; Note that if you set the dump range 
+        to a large value, it could take a long time.&nbsp; It's best to turn off 
+        RS-232 messages and Echo through the <a href="#o">O &lt;R/E&gt;</a> command 
+        prior to dumping the binary (as you would be logging it using a terminal 
+        program on your PC.)</p>
+      <p>Any of the MPR banks (00-FF) can be dumped (all 8192 bytes in one shot) 
+        by specifying the starting bank and optional finishing bank.</p>
+      </td>
+    <td><pre><font color="#0000FF"><strong>D 4000 FFFF</strong></font>
+   ... (dumps the current ROM/CD-RAM space)
+<strong><font color="#0000FF">D V 0 8000</font></strong>
+   ... (dumps all VRAM)
+<strong><font color="#0000FF">D 68:87</font></strong> 
+   ... (dumps all (Super)CD-RAM banks)
+<strong><font color="#0000FF">D 00:</font></strong>
+   ... (dumps ROM bank $00)</pre></td>
+  </tr>
+  <tr> 
+    <td colspan="2">
+<center>
+      </center></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="m" id="m"></a> M &lt;AAAA&gt; &lt;DD&gt; 
+            [DD] [DD] [DD]... - write hex to Memory</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>You can write one or more hex values into a specified address with this 
+      command.</td>
+    <td><pre><font color="#0000FF"><strong>M 2200 A9 80 53 80 4C 00 E0</strong></font>
+    ...(writes some code to the buffer at $2200)
+<strong><font color="#0000FF">M 0402 00 01
+M 0404 FF FF</font></strong>
+    ...(writes to the VCE and sets the border colour to white)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="f" id="f"></a> F &lt;AAAA&gt; &lt;BBBB&gt; 
+            &lt;DD&gt; - Fill range with byte</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This blanket-fills a region of memory with a single value.</td>
+    <td><pre><font color="#0000FF"><strong>F 4000 DFFF 00</strong></font>
+    ...(zeroes-out all RAM(?) in the above memory range)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="u" id="u"></a> U [V] [AAAA] - Upload directly 
+            from serial port to buffer/VRAM/RAM<br>
+            <a name="u2" id="u2"></a> U [MM:] - Upload directly from serial port 
+            to sequential MPR banks</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This command allows you to upload large binary files from your PC over 
+        to the PC-Engine.&nbsp; PCEmon will wait for the first byte to come over, 
+        and then will write it and successive bytes directly to the specified 
+        address or memory range until it detects a gap in the upload (ie: the 
+        file has finished.)</p>
+      <p>If you don't specify a destination address, the binary file will be put 
+        into PCEmon's buffer at $2200-$3FFF, and the buffer size will be set to 
+        the amount of bytes received.&nbsp; The buffer size is limited to $1E00 
+        bytes, however. </p></td>
+    <td><pre><font color="#0000FF"><strong>U</strong></font> 
+    Okay, send your binary!<br>    Received $0352 bytes, saved from $2200 to $2551<br><strong><font color="#0000FF">U 3000</font></strong>
+    Okay, send your binary!<br>    Received $1000 bytes, saved from $3000 to $3FFF
+<strong><font color="#0000FF">U 80:</font></strong>
+    Okay, send your binary!<br>    Received $006000 bytes, saved from $80:0000 to $82:1FFF
+<strong><font color="#0000FF">U 68:</font></strong>
+    Okay, send your binary!<br>    Received $040000 bytes, saved from $68:0000 to $87:1FFF</pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="j" id="j"></a> J&nbsp; &lt;AAAA&gt; - Jump 
+            to (execute) address</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This command will send the CPU to the subroutine that you specify the 
+        address to.&nbsp; Be careful, though, because if there is no code there 
+        or the routine never exits with an RTS ($60) instruction, control might 
+        never return to PCEmon.</p>
+      <p>PCEmon keeps stored variables for the <a href="#axy">A</a>, <a href="#axy">X</a>, 
+        and <a href="#axy">Y</a> registers, as well as for MPR7, and it will load 
+        up these registers and the MPR right before jumping through RAM to your 
+        address.&nbsp; This is how you can set entry conditions (and a different 
+        &quot;<a href="#8">Jump MPR7</a>&quot; for mapping in ROM/CD-RAM) when 
+        you have your own code you want to take over the system with.</p>
+      <p>If the code you jump to hits a BRK ($00) instruction, then PCEmon should 
+        restart, letting you know of this.&nbsp; The &quot;PC&quot; register in 
+        the <a href="#r">register list</a> should show where the PC was when the 
+        BRK occurred.</p></td>
+    <td><pre><font color="#0000FF"><strong>J 2200</strong></font>
+    PC   A  X  Y  NVTBDIZC  SP  MPR 0  1  2  3  4  5  6  7 (J7)
+   EA25 00 02 01  10010100  F6     FF F8 03 04 0C 0A 04 00  00
+   ...(jumps to some code you have at 2200, and the program returns)
+<font color="#0000FF"><strong>8 68
+J E000</strong></font>
+   ...(sets MPR7 to $68 right before a jump to, effectively, $68:E000
+   ...but never returns)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="g" id="g"></a> G [L/S/R] - Go to saved 
+            game / (upLoad/Save savestate, or save Raw RAM)</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>PCEmon saves the CPU's state in RAM on startup, which allows you to 
+        freeze a game, view memory, etc., and then resume the game (hopefully) 
+        exactly where you left off, like an emulator's save state function.</p>
+      <p>(The &quot;R&quot; option for this command tries to save the full 8K 
+        RAM region as it appeared right when the state was frozen, so that you 
+        can compare successive Raw RAM dumps on your computer (ie: for finding 
+        cheats), or even in PCEmon using the <a href="#hlprsrch"># T Cheat Finder</a> 
+        command.)</p>
+      <p>If you alter the memory buffer after starting up PCEmon, the save state 
+        will be lost, so it's best to Save it to your computer first.&nbsp; Later, 
+        you can re-upLoad it into PCEmon and then Go back to the saved game.</p>
+      <p>Read about the full <a href="#sstate">save state procedure</a> for more 
+        details.</p></td>
+    <td><pre><font color="#0000FF"><strong>G S
+</strong></font>   .... (save state is dumped to your computer)<font color="#0000FF"><strong>
+G L
+</strong></font>    Okay, send your binary!<br>    Received $1EC0 bytes, saved from $2140 to $3FFF<font color="#0000FF"><strong>
+G
+</strong></font>   .... (border goes green and saved game should resume)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="l" id="l"></a> L &lt;size&gt; - Load buffer 
+            up to $1E00 bytes over serial port</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This is similar to the <a href="#u">Upload</a> command above, but you 
+      can define a preset size for the upload beforehand.&nbsp; The destination 
+      is always the $1E00-byte buffer in RAM at $2200</td>
+    <td><pre><strong><font color="#0000FF">L 800</font></strong><br>   Okay, send your binary!</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="s" id="s"></a> S - Save buffer as binary 
+            over serial port</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This saves the contents of the buffer as a binary back to the PC over 
+      the serial port.&nbsp; It won't do anything if there's nothing in the buffer.</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p><table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="c" id="c"></a> C - Check buffer (a hexdump)</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will simply do a hexdump of the current buffer contents.</td>
+    <td><pre><font color="#0000FF"><strong>C</strong></font>
+    2200: 4855424D 0088F284 00000000 00000000 |HUBM............
+    2210: 3000CFF9 00004E45 55544F50 49413120 |0.....NEUTOPIA1<br>    ... 
+    29E0: 0B001B1B 1B1B1D21 201B0F14 0B001B1B |.......! .......
+    29F0: 1B1B1D21 1B1B1415 1A001B1B 1B1B1D20 |...!........... </pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="w" id="w"></a> W [V] &lt;AAAA&gt; - Write 
+            buffer to (V)RAM address</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will write the current buffer contents to an address in RAM or VRAM.</td>
+    <td><pre><font color="#0000FF"><strong>W V 0</strong></font>
+    ...(buffer copied to the start of VRAM)
+<strong><font color="#0000FF">W C000</font></strong>
+    ...(buffer copied to $C000, naturally.)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="paltobuf" id="paltobuf"></a> <strong>(</strong> 
+            &nbsp; - copy all VCE palettes to buffer</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will copy the current palette RAM in the VCE to the buffer ($400 
+      bytes in size).</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="buftopal" id="buftopal"></a> <strong>)</strong> 
+            [iii]&nbsp; - copy buffer to VCE palette index [iii] or 0 </font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will copy whatever's in the buffer back to the VCE palette, at the 
+      specified index.</td>
+    <td><pre><font color="#0000FF"><strong>)</strong></font>
+   ...(palette copied to index 0)
+<strong><font color="#0000FF">) 100</font></strong>
+   ...(palette copied starting at the sprite palette)</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="bramtobuf" id="bramtobuf"></a> &lt;&nbsp; 
+            - copy BRAM to buffer</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will copy the contents of the BRAM save file (in bank $F7) to the 
+      buffer.&nbsp; Its size will be $800 bytes.&nbsp; This routine doesn't do 
+      any checking to see if there's a CD unit or Backup booster, etc. present; 
+      it'll simply copy the bytes assuming BRAM.&nbsp; You should next use the 
+      <a href="#s">S</a> command to backup the buffer to your PC.</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="buftobram" id="buftobram"></a> &gt;&nbsp; 
+            - write buffer to BRAM *CAREFUL!*</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This copies the buffer back to the BRAM, <strong><font color="#FF0000">overwriting 
+      what was there</font></strong>, so be careful!&nbsp; It'll only write to 
+      BRAM if the buffer is exactly $800 bytes.</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="axy" id="axy"></a> A &lt;DD&gt; - set A 
+            register<br>
+            X &lt;DD&gt; - set X register<br>
+            Y &lt;DD&gt; - set Y register </font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will set a stored copy of the main registers to a certain value.&nbsp; 
+      These values will be used when the CPU jumps to a routine using the <a href="#j">J 
+      &lt;aaaa&gt;</a> command, and they will be updated with new values when 
+      that routine returns.</td>
+    <td><pre><font color="#0000FF"><strong>Y 44</strong></font><br>   PC   A  X  Y  NVTBDIZC  SP  MPR 0  1  2  3  4  5  6  7 (J7)<br>  0000 00 02 44  10010100  F6     FF F8 03 04 0C 0A 04 00  00
+</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p><table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="mprset" id="mprset"></a> 0..7 &lt;DD&gt; 
+            - set MPR0..7 mapper register</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will copy whatever value you give it to the specified MPR register.&nbsp; 
+      Be careful, because usually touching the MPR0, MPR1, and MPR7 registers 
+      will cause a CPU crash or freeze!</td>
+    <td><pre><font color="#0000FF"><strong>2 68</strong></font><br><font color="#0000FF"><strong>R</strong></font><br>   PC   A  X  Y  NVTBDIZC  SP  MPR 0  1  2  3  4  5  6  7 (J7)<br>  0000 01 02 FF  10010100  F6     FF F8 68 04 0C 0A 04 00  00</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="8" id="8"></a> 8 &lt;DD&gt; - set MPR7 
+            value used when jumping to address</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>If you change MPR7 willy-nilly, PCEmon will definitely crash, because 
+      $E000- is where it runs from.&nbsp; So if you want to delay an MPR7 write 
+      until the point that you jump to your own code (wherever it is), you should 
+      store the MPR7 value of your code location in this &quot;Jump MPR7&quot; 
+      variable.&nbsp; See the <a href="#j">J &lt;aaaa&gt;</a> command for more.</td>
+    <td><pre><font color="#0000FF"><strong>8 80</strong></font><br><font color="#0000FF"><strong>R</strong></font><br>   PC   A  X  Y  NVTBDIZC  SP  MPR 0  1  2  3  4  5  6  7 (J7)<br>  0000 01 02 FF  10010100  F6     FF F8 81 82 83 84 85 00  80</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="v" id="v"></a> V &lt;RR&gt; &lt;DDDD&gt; 
+            - write data to VDC register</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will write a word value to a specific VDC register.&nbsp; Check out 
+      the PCE documentation for what each register does.</td>
+    <td><pre><font color="#0000FF"><strong>V 7 0080</strong></font>
+    ...(sets horizontal scroll to $0080)
+<strong><font color="#0000FF">V 5 CC</font></strong>
+    ...(turns on Sprites, BG, and interrupts)
+<strong><font color="#0000FF">V 9 30</font></strong>
+    ...(changes the BAT width &amp; height to 128x32)</pre>
+      </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="r" id="r"></a> R - display CPU Registers</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This will show the CPU registers on startup, as well as the current MPR 
+      values.</td>
+    <td><pre><font color="#0000FF"><strong>R</strong></font><br>   PC   A  X  Y  NVTBDIZC  SP  MPR 0  1  2  3  4  5  6  7 (J7)<br>  0000 01 02 FF  10010100  F6     FF F8 02 04 0C 0A 04 15  15</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p><table border="1" bordercolor="#999999" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><center>
+              <font size="+1"><a name="cdmenu" id="cdmenu"></a> CD System Card 
+              hacked Cheat Menu</font></center></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> </strong></font> 
+      </center></td>
+  </tr>
+  <tr> 
+    <td><p>I've hacked the code of the <strong>Super System Card 3.0</strong> 
+        (Japanese ROM patch for now; no guarantee about the US version) so that 
+        cheat codes are usable without starting up PCEmon.&nbsp; Once you have 
+        the hacked system card ROM working on your PCE/Turbo (through an Everdrive 
+        or flash cart), press Select from the System Card screen, and you'll be 
+        able to move the cursor down to the cheat codes.</p>
+      <p>Controls are:</p>
+      <ul>
+        <li><strong>I</strong> to enable / disable each code</li>
+        <li><strong>II</strong> to finish code editing</li>
+        <li><strong>L/R</strong> to move between the address and data digits</li>
+        <li><strong>U/D</strong> to alter the digit above the blue cursor.</li>
+      </ul>
+      <p>Like the <a href="#t"><strong>T</strong></a> command, the border of the 
+        screen should be a dark blue as long as the codes are active.</p></td>
+    <td bgcolor="#000000">
+<center>
+      </center></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#0000CC" bordercolorlight="#0000cc" bordercolordark="#0000cc" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><center>
+              <font size="+1"><a name="sstate" id="sstate"></a> <strong>Save State 
+              Procedure</strong></font> </center></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>PCEmon can save most of the PCE's memory space so that you can resume 
+        a game mid-way through it.&nbsp; This is especially useful for the 8K 
+        version of PCEmon that can be hacked into a System Card, so we'll use 
+        that. </p>
+      <p>For Saving a savestate:</p>
+      <ol>
+        <li>Play your game using the hacked System Card, optionally pause the 
+          game, then press &lt;Select&gt; or whatever the PCEmon trigger button 
+          is.&nbsp; The game will freeze.</li>
+        <li>If the screen border isn't red, the savestate compressed OK, so swap 
+          your joypad with the PCE serial cable.</li>
+        <li>Turn off Echo, and get ready to save binary logs from your PC's terminal 
+          program.</li>
+        <li>Back up the state to your PC.</li>
+        <li>Back up (S)CD-RAM to your PC.</li>
+        <li>Copy ADPCM RAM to RAM and back that up to your PC.</li>
+        <li>Copy the palette to the buffer and back that up to your PC.</li>
+        <li>Back up VRAM to your PC.</li>
+      </ol>
+      <p>And you're done.&nbsp; It should be safe to turn off your PCE or do whatever 
+        you like.</p></td>
+    <td><pre>1. 
+2.
+3. <font color="#0000FF"><strong>O RE
+</strong></font>4.<font color="#0000FF"><strong> G S
+</strong></font>5.<font color="#0000FF"><strong> D 68:87
+</strong></font>6.<font color="#0000FF"><strong> !&lt;
+   D 80:87
+</strong></font>7.<font color="#0000FF"><strong> (
+   S
+</strong></font>8.<font color="#0000FF"><strong> D V 0 8000</strong></font></pre></td>
+  </tr>
+  <tr> 
+    <td><p>Loading a savestate is the reverse of this process.&nbsp; Start up 
+        PCEmon and make sure it's working, then:</p>
+      <ol>
+        <li>Upload your VRAM file to the PCE.</li>
+        <li>Upload the palette file to the PCEmon buffer and copy it to the VCE.</li>
+        <li>Upload the ADPCM file to banks 80:87, and transfer that to ADPCM RAM.</li>
+        <li>Upload the (S)CD-RAM file to banks 68:87.</li>
+        <li>Upload the savestate file to the PCE.</li>
+        <li>Adjust the screen resolution and BAT size to bring the game's background 
+          image back to normal.</li>
+        <li>Press &quot;G&quot; to Go to the savestate.</li>
+        <li>While the screen border is green, you can safely unplug your serial 
+          cable and plug the PCE joypad back in.</li>
+      </ol></td>
+    <td><pre>1. <font color="#0000FF"><strong>U V 0
+</strong></font>2. <font color="#0000FF"><strong>U
+   )
+</strong></font>3. <font color="#0000FF"><strong>U 80:
+   !&gt;
+</strong></font>4. <font color="#0000FF"><strong>U 68:
+</strong></font>5. <font color="#0000FF"><strong>G L
+</strong></font>6. <font color="#0000FF"><strong>!L </strong></font>or<font color="#0000FF"><strong> !H </strong></font>,<font color="#0000FF"><strong> V 9 10 </strong></font>or<font color="#0000FF"><strong> V 9 40 </strong></font>etc.<font color="#0000FF"><strong>
+</strong></font>7. <font color="#0000FF"><strong>G</strong></font>
+8.</pre></td>
+  </tr>
+</table>
+<p><a name="helpers"></a></p>
+<table border="1" bordercolor="#CC0000" bordercolorlight="#CC0000" bordercolordark="#CC0000" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="hlprdis" id="hlprdis"></a> Helper Command: 
+            #D &lt;AAAA&gt; [BBBB] - Disassemble address range</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>This will show the HuC6280 opcodes starting at the specified disassembly 
+        address. If the disassembly starts to look strange, then you may have 
+        not aligned the disassembly correctly with the start of the instruction.</p>
+      <p>The disassembly will pause after a full screen's worth, using the same 
+        setting as defined in the <a href="#p">Pause</a> command.</p>
+      <p>The disassembler gets loaded into $4000-$5FFF, so if you want to disassemble 
+        code in that region, I'd recommend uploading and running the version that 
+        goes into the buffer from $2200.</p></td>
+    <td><pre><strong><font color="#0000FF"># D E6A6 E800</font></strong><br>  E6A6:  STZ  $0402                    ;9C 02 04 
+  E6A9:  STZ  $0403                    ;9C 03 04 
+  E6AC:  TAI  $0404,$2200,#$0400       ;F3 04 04 00 22 00 04 
+  E6B3:  LDA  #$00                     ;A9 00 
+  E6B5:  STA  $15                      ;85 15 
+  E6B7:  LDA  #$04                     ;A9 04 
+  E6B9:  STA  $16                      ;85 16 
+  E6BB:  RTS                           ;60 
+  ...</pre></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#CC0000" bordercolorlight="#CC0000" bordercolordark="#CC0000" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="hlprpcx" id="hlprpcx"></a> Helper Command: 
+            #X [B/W/S/G&nbsp; [pal]] - Save Screenmap / BG Tiles / SPR Tiles as 
+            a .PCX file</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td>This command will send a pixel-perfect binary dump of the current contents 
+      of the background map, or VRAM (arranged as BG or Sprite tiles), over the 
+      serial port as a .PCX file.&nbsp; A few options can alter the width of the 
+      BG tile dump, arrangement of the sprite tiles, and which palette to use 
+      for the VRAM dump.</td>
+    <td><pre><strong><font color="#0000FF"># X</font></strong><br>&nbsp; ...(the current map gets dumped)<br><strong><font color="#0000FF"># X B f</font></strong><br>&nbsp; ...(VRAM gets dumped as BG tiles, using BG palette $0F)<br><strong><font color="#0000FF"># X G</font></strong><br>&nbsp; ...(VRAM gets dumped as Grouped SPR tiles, using SPR palette 0)</pre></td>
+  </tr>
+  <tr> 
+    <td colspan="2"><table width="100%" border="0" cellpadding="3" cellspacing="0">
+        <tr> 
+          <td><div align="center"><strong>#X</strong> by itself dumps the current 
+              screen map.&nbsp; Its dimensions will depend on the settings in 
+              VDC register 9.&nbsp; (You can change this by typing '<a href="#v">V</a> 
+              9 00', 'V 9 10'...'V 9 70'.)</div></td>
+          <td colspan="6"><div align="center"></div></td>
+        </tr>
+        <tr> 
+          <td colspan="2"><div align="center"><strong>#X B</strong> will dump 
+              all the <strong>BG</strong> tiles in VRAM as a 128x1024-pixel .PCX 
+              file.</div></td>
+          <td><div align="center"><strong>#X W</strong> will dump all the BG tiles 
+              in VRAM as a <strong>W</strong>ider 256x512-pixel .PCX file.&nbsp; 
+              Some BG tiles become more recognizable this way.</div></td>
+          <td><div align="center"><strong>#X S</strong> will dump all of VRAM 
+              as <strong>S</strong>prite tiles in a 128x1024-pixel .PCX file. 
+            </div></td>
+          <td><div align="center"><strong>#X G</strong> will dump the same sprites, 
+              but <strong>G</strong>roup them differently as seen below.&nbsp; 
+              Some game objects are more recognizable this way.</div></td>
+          <td><div align="center">By default, BG and SPR tiles are dumped using 
+              BG/SPR palette 0.&nbsp; If you want to change this...</div></td>
+          <td><div align="center">...add a number (0..F) at the end.&nbsp; Eg:<br>
+              <strong>#X G C</strong> sets the tiles to use SPR palette $0C.</div></td>
+        </tr>
+        <tr> 
+          <td colspan="2" valign="top">
+<div align="center"></div></td>
+          <td valign="top">
+<div align="center"></div></td>
+          <td><div align="center"></div></td>
+          <td><div align="center"></div></td>
+          <td><div align="center"></div></td>
+          <td><div align="center"></div></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" bordercolor="#CC0000" bordercolorlight="#CC0000" bordercolordark="#CC0000" cellspacing="0" cellpadding="2" width="100%">
+  <tr> 
+    <td colspan="2"><table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr> 
+          <td><font size="+1"><a name="hlprsrch" id="hlprsrch"></a> Helper Command: 
+            #T - interactive Trainer/Cheat finder.</font></td>
+          <td> <div align="right"><font size="+1"><strong><a href="#cmdtop">^ 
+              to TOP</a> </strong> </font> </div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td bgcolor="#FFFF66"> <center>
+        <font size="-1"><strong> DESCRIPTION </strong></font> </center></td>
+    <td bgcolor="#99FF99"> <center>
+        <font size="-1"><strong> EXAMPLE </strong></font> </center></td>
+  </tr>
+  <tr> 
+    <td><p>After dumping 8K of RAM using the <a href="#g">G R</a> command, you 
+        can search through this RAM to find certain byte values, or compare successive 
+        RAM dumps for differences.&nbsp; It works exactly like the Action Replay 
+        / Game Shark series of cheat devices, so hopefully you're familiar with 
+        them.</p>
+      <p>This command can be loaded anywhere (to the buffer or to a (S)CD-RAM 
+        bank), but it uses CD RAM from banks 80-86 while searching.</p>
+      <p>This is an interactive cheat finder, so you need only press a key to 
+        issue a command.&nbsp; The commands available to you will change depending 
+        on how many 8K RAM dumps you have uploaded in the cheat finder.</p></td>
+    <td><pre><strong><font color="#0000FF"># T<br></font></strong><font size="-1">   ...
+ +---------------------------------------------------------+<br> | RAM Cheat Search Tool  --  Step 2  --  Press a key:     |<br> |   X - exit to PCEmon                                    |<br> |   U - upload RAM image                                  |<br> |   R - restart search                                    |<br> |                                                         |<br> | -- Comparison Options --                                |<br> |  V - equal to numerical value                           |<br> |  E - equal to previous                                  |<br> |  N - not equal to previous                              |<br> |  L - less than previous                                 |<br> |  G - greater than previous                              |<br> |                                                         |<br> |  S - show search results                                |<br> +---------------------------------------------------------+</font></pre></td>
+  </tr>
+  <tr> 
+    <td colspan="2"><center>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><pre> +---------------------------------------------------------+
+ | RAM Cheat Search Tool  --  Step 0  --  Press a key:     |
+ |   X - exit to PCEmon                                    |
+ |   U - upload RAM image                                  |
+ +---------------------------------------------------------+
+  <font color="#0000FF"><strong>U</strong></font>
+  Okay, send your binary!
+  <font color="#0000FF"><strong>...(1st 8K binary uploaded)</strong></font>
+
+ +---------------------------------------------------------+
+ | RAM Cheat Search Tool  --  Step 1  --  Press a key:     |
+ |   X - exit to PCEmon                                    |
+ |   U - upload RAM image                                  |
+ |   R - restart search                                    |
+ |                                                         |
+ | -- Comparison Options --                                |
+ |  V - equal to numerical value                           |
+ |                                                         |
+ |  S - show search results                                |
+ +---------------------------------------------------------+
+  <font color="#0000FF"><strong>V</strong></font>
+  Enter Compare Value: <font color="#0000FF"><strong>3F</strong></font>
+
+  07 matches found.
+
+  <font color="#0000FF"><strong>S</strong></font>
+
+  2014:  3F  
+  205C:  3F  
+  205E:  3F  
+  205F:  3F  
+  2B7C:  3F  
+  2C1C:  3F  
+  2C94:  3F  
+  -- end -- PRESS A KEY --
+
+  <font color="#0000FF"><strong>R</strong></font>
+
+ +---------------------------------------------------------+
+ | RAM Cheat Search Tool  --  Step 0  --  Press a key:     |
+ |   X - exit to PCEmon                                    |
+ |   U - upload RAM image                                  |
+ +---------------------------------------------------------+
+  <font color="#0000FF"><strong>U</strong></font>
+  Okay, send your binary!
+  <font color="#0000FF"><strong>...(new 1st 8K binary uploaded)</strong></font>
+  ...
+  <font color="#0000FF"><strong>U</strong></font>
+  Okay, send your binary!
+  <font color="#0000FF"><strong>...(2nd 8K binary uploaded)</strong></font>
+
+ +---------------------------------------------------------+
+ | RAM Cheat Search Tool  --  Step 2  --  Press a key:     |
+ |   X - exit to PCEmon                                    |
+ |   U - upload RAM image                                  |
+ |   R - restart search                                    |
+ |                                                         |
+ | -- Comparison Options --                                |
+ |  V - equal to numerical value                           |
+ |  E - equal to previous                                  |
+ |  N - not equal to previous                              |
+ |  L - less than previous                                 |
+ |  G - greater than previous                              |
+ |                                                         |
+ |  S - show search results                                |
+ +---------------------------------------------------------+
+
+  <strong><font color="#0000FF">L</font></strong>
+  78 matches found.
+
+  <font color="#0000FF"><strong>U</strong></font>
+  Okay, send your binary!
+  <font color="#0000FF"><strong>...(3rd 8K binary uploaded)</strong></font>
+
+  <font color="#0000FF"><strong>L</strong></font>
+  15 matches found.
+
+  <font color="#0000FF"><strong>S</strong></font>
+
+  2045:  A4  94  8C  
+  205C:  3F  1F  0F  
+  205E:  3F  1F  0F  
+  2086:  FD  F7  F1    
+  ...  
+  3B90:  AC  A5  73  
+  -- end -- PRESS A KEY --
+
+  <strong>(And $205C:3F happens to be the code for infinite energy in Spriggan 2. :-)</strong></pre></td>
+          </tr>
+        </table>
+      </center></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

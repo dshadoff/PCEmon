@@ -1,0 +1,36 @@
+Here are some example RAM cheat codes to use in the PCEmon Trainer
+
+Cotton (U)
+----------
+3264:02	Infinite Lives
+3279:0C	Max Experience
+
+Valis IV
+--------
+2395:06	Life
+2392:xx	Lives
+
+Pomping World
+-------------
+203F:05	Infinite Lives
+207D:09	Infinite Time
+
+SideArms Special (CD): Before Christ
+------------------------------------
+20AF:64	Invincible (can't get power ups, though.)
+
+Shadow of the Beast (J)
+-----------------------
+2D89:09	Infinite Energy
+
+Forgotten Worlds (J)
+--------------------
+2032:30	Infinite Energy
+
+Red Alert
+---------
+240A:xx	Infinite Energy
+
+Spriggan Mark II
+----------------
+205C:3F	Infinite Energy
