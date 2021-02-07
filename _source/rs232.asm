@@ -9,7 +9,7 @@
 ; BAT corruption when echo turned back on?
 ; VRAM dumped only 65534 bytes(?) if doing DV0... *fixed* in Hexdump Rt?
 
-        .include "INC\My_startup.asm"
+        .include "INC/My_startup.asm"
 	.nomlist
 	.list
 ; ----
@@ -274,11 +274,11 @@ clear_vars:
 
 
 ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	.include "INC\monitor_functions.asm"
-	.include "INC\serial_lowlevel.asm"
-	.include "INC\gfx_work.asm"
-	.include "INC\savestates.asm"
-	.include "INC\includes.asm"	;This goes last!
+	.include "INC/monitor_functions.asm"
+	.include "INC/serial_lowlevel.asm"
+	.include "INC/gfx_work.asm"
+	.include "INC/savestates.asm"
+	.include "INC/includes.asm"	;This goes last!
 ;**************************************************
 
      	.bank	START_BANK

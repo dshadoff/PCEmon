@@ -59,6 +59,12 @@ _dx	= $20FE
 _dl	= $20FE
 _dh	= $20FF
 
+; the following are needed to deal with updated pceas include libraries
+;
+__si	= $20EE	; source address
+__di	= $20F0	; destination address
+__bl	= $20FA
+__cx	= $20FC
 
 ;
 ; This block defines names for standard
@@ -126,4 +132,5 @@ ARG_IMMED	.equ 2
 ARG_ABSOLUTE	.equ 3
 ARG_INDIRECT	.equ 4
 ARG_STRING	.equ 5
+ARG_LABEL	.equ 6 
 

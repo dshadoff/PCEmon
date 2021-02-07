@@ -17,7 +17,7 @@ CHEAT_RAM	equ $2104	;used for cheats/trainers (16 bytes)
 ;--- CODE area ----------
 	.code
 	.bank 0
-	.incbin "INC\cdsel-before.bin"
+	.incbin "INC/cdsel-before.bin"
 ;-------------------------
 
 ;============ SYSCARD HACKING STARTS HERE ================

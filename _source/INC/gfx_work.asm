@@ -487,4 +487,4 @@ xres_512:
 	sta	$0400
 	rts
 
-Pals: 	.incpal "INC\GunstarASCII.pcx",0,2
+Pals: 	.incpal "INC/GunstarASCII.pcx",0,2

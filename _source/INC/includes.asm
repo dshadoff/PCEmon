@@ -6,7 +6,7 @@
 	IF NOHELP=1
 	.bank 0
 	ENDIF
-	.include "INC\text_strings.asm"
+	.include "INC/text_strings.asm"
 ;**************************************************
 
 ;**************************************************
@@ -25,20 +25,20 @@
 	ENDIF
 Sc1_CHR: .vram TEXT_VRAM
 	IF HEADLESS=0
-	.incchr "INC\GunstarASCII.pcx"
+	.incchr "INC/GunstarASCII.pcx"
 	ENDIF
 ;**************************************************
 	IF HEADLESS=0
 
 	.bank MAIN_BANK+4	;spare space
 	.org    $4000
-	.include "INC\helper_cheatfinder.asm"
+	.include "INC/helper_cheatfinder.asm"
 
 	.bank MAIN_BANK+5	;spare space
 	.org    $4000
-	.include "INC\helper_disasm.asm"
+	.include "INC/helper_disasm.asm"
 
 	.bank MAIN_BANK+6	;spare space
 	.org    $4000
-	.include "INC\helper_pcxsave.asm"
+	.include "INC/helper_pcxsave.asm"
 	ENDIF

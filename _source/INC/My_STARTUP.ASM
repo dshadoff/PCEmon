@@ -2,7 +2,7 @@
 ; STARTUP.ASM  -  MagicKit standard startup code
 ;
 
-	.include "INC\my_standard.inc"
+	.include "INC/my_standard.inc"
 
 ; ----
 ; setup flexible boundaries for startup code
@@ -207,7 +207,7 @@ _short_vsync:
 
 
 ;北[ LIBRARY ]北北北北北北北北北北北北北北北北北北北北北北北北北北北北北北北北北
-	.include "INC\my_library.asm"
+	.include "INC/my_library.asm"
 
 	.nomlist
 	.list
