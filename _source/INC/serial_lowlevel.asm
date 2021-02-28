@@ -22,6 +22,10 @@ baud_wrt_tbl: .db $74,$37,$0D
 ;===========================================================================
 
 Check_Port_Connected:	;If port is "high" continuously, then no serial port connected!
+	jsr	Check_FT245_Connected
+	tst	#1, ft245_present
+	bne	.portok			; running on ft245
+
 	stz	<LineBuffer
 	jsr	Serial_Space_Out	;Initialize serial line with 0/1 (TTL)
 .here:
@@ -79,6 +83,10 @@ Wait_A_While:
 ;Y reg gets totally destroyed!
 
 read_serial_with_exit:
+	tst	#1, ft245_present
+	beq	.serial
+	jmp	read_FT245_with_exit
+.serial:
 	phx
 	ldy #$50			;# of loops to check for timeout
 	sty	<TIMEOUT+1
@@ -107,6 +115,10 @@ read_serial_with_exit:
 ;======================================
 
 Serial_In:	;Timing-efficient serial reading but CAN'T EXIT!
+	tst	#1, ft245_present
+	beq	.serial
+	jmp	FT245_In
+.serial:
 	phx	;Gotta Store X at least
 	lda #8          ; RUN (pin 5, bit 3)
 .rd_nx1:
@@ -170,6 +182,10 @@ rd_first:
 ;======================================
 
 Serial_Out:
+	tst	#1, ft245_present
+	beq	.serial
+	jmp	FT245_Out
+.serial:
 	pha
 
 ;TTL/SERIAL

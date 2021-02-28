@@ -65,6 +65,7 @@ VCE_copy:	ds 1
 palnum:		ds 1
 joyportread:	ds 1
 selclr:		ds 1
+ft245_present:	ds 1
 baud_wrt_delay1:	ds 1
 baud_wrt_gap:		ds 1
 baud_read_st_delay:	ds 1
@@ -275,6 +276,7 @@ clear_vars:
 
 ;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	.include "INC/monitor_functions.asm"
+	.include "INC/FT245_lowlevel.asm"
 	.include "INC/serial_lowlevel.asm"
 	.include "INC/gfx_work.asm"
 	.include "INC/savestates.asm"
