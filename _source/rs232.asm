@@ -73,6 +73,7 @@ baud_read_rd_delay:	ds 1
 TIMEOUT		ds 2		;Timeout for serial receive
 baud_setting:	ds 1		;0,1,2 for different BPS
 ;--- monitor stuff
+alreadyEOL:	ds 1	;both 0D and 0A should act as end of line - but only once 
 Start_Address	ds 2	;Address to start from (will increment)
 Stop_Address	ds 2	;Address to stop at ($xFFF or $x000 ????)
 Start_Bank	ds 1	;from...
@@ -197,16 +198,14 @@ My_Monitor_Loop:		;X is the line buffer pointer from now!
 ;;	bbr0	<echo_flags,.no_RS_CR
 ;;	jsr	Serial_Out		;CR Out!
 ;;.no_RS_CR:
-	lda	<curline_ptr
-	add	#2              ;Move over 2 spaces past prompt.
-	sta	<screen_ptr	;Reset line! (DIRTY! Low Byte only)
-	jsr   	write_scrnptr 	; set VRAM write address
-	stx	<line_len	;Pointer becomes max line length
-	clx	;Clear POINTER INTO THE LINE BUFFER!
-	bra	My_Monitor_Loop
+	stz	<alreadyEOL
+	inc	<alreadyEOL
+	bra	.process
 
 .handle_LF:
 	rmb7    <echo_flags	;Reenable Prompt!
+	bbs0	<alreadyEOL,.skipit
+.process:
 	bbr0	<echo_flags,.no_RS_LF
 	lda	#$0D
 	jsr	Serial_Out
@@ -222,6 +221,9 @@ My_Monitor_Loop:		;X is the line buffer pointer from now!
 	jsr	manage_screen_newlines
 	jsr	Evaluate_Line
 	jmp	Monitor_Clear
+.skipit:
+	stz	<alreadyEOL
+	jmp	My_Monitor_Loop
 
 
 
@@ -253,6 +255,7 @@ clear_vars:
 	nop
 	nop
 	ENDIF
+	stz	<alreadyEOL
 	stz	<BAT_Size
 	stwz	<nmi_count
 	stz	<selclr
